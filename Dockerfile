@@ -1,6 +1,6 @@
 FROM debian:10 as builder
 
-ENV GRPCURL_VERSION="1.6.0"
+ENV GRPCURL_VERSION="1.7.0"
 
 RUN apt update && apt install -y curl \
     && mkdir -p /opt \
@@ -9,6 +9,6 @@ RUN apt update && apt install -y curl \
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
 # using full sha256 here to make build reproducable
-FROM gcr.io/distroless/java@sha256:9d4092ba5e1c9dc4d1490fdead1dd7ea5c64e635b729fee11a6af55f51b337f8
+FROM gcr.io/distroless/java@sha256:28ec552405a92ed1a3767b81aaece5c48bd1b89dfb5f3c144b0e4cea4dd5ffa4
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl 
