@@ -8,6 +8,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      REPOSITORY: ghcr.io/stroeer/java-with-grpc
+
     steps:
     - 
       uses: actions/checkout@master
@@ -29,8 +32,8 @@ jobs:
 
     - 
       name: docker build
-      run: docker build . --tag "ghcr.io/stroeer/java-with-grpc:15" --tag "ghcr.io/stroeer/java-with-grpc:$GITHUB_SHA"
+      run: docker build . --tag "${REPOSITORY}:15" --tag "${REPOSITORY}:${GITHUB_SHA}"
     
     - 
       name: docker push
-      run: docker push "ghcr.io/stroeer/amazoncorretto-alpine-grpc:15"
+      run: docker push "${REPOSITORY}"
