@@ -1,0 +1,13 @@
+name: Publish Docker
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: docker build
+      run: docker build . --tag "ghcr.io/stroeer/amazoncorretto-alpine-grpc:15"
+    - name: docker login
+      run: docker login https://docker.pkg.github.com -u ${{ github.actor }} --password ${{ secrets.GITHUB_TOKEN }} 
+    - name: docker push
+      run: docker push "ghcr.io/stroeer/amazoncorretto-alpine-grpc:15"
