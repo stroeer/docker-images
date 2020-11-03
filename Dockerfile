@@ -1,6 +1,6 @@
 FROM alpine:3.12 as builder
 
-ENV GRPCURL_VERSION="1.6.0"
+ENV GRPCURL_VERSION="1.7.0"
 
 RUN apk add --no-cache curl \
     && mkdir -p /opt \
