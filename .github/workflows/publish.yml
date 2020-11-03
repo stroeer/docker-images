@@ -32,7 +32,7 @@ jobs:
 
     - 
       name: docker build
-      run: docker build . --tag "${REPOSITORY}:15" --tag "${REPOSITORY}:${GITHUB_SHA}"
+      run: docker build . --tag "${REPOSITORY}:${{ steps.extract_branch.outputs.branch }}" --tag "${REPOSITORY}:${GITHUB_SHA}"
     
     - 
       name: docker push
