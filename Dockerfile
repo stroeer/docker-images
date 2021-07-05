@@ -1,6 +1,6 @@
 FROM debian:10 as builder
 
-ENV GRPCURL_VERSION="1.7.0"
+ENV GRPCURL_VERSION="1.8.1"
 
 RUN apt update && apt install -y curl \
     && mkdir -p /opt \
