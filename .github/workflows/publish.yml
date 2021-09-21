@@ -37,4 +37,4 @@ jobs:
     
     - 
       name: docker push
-      run: docker push "${REPOSITORY}"
+      run: docker push --all-tags "${REPOSITORY}"
