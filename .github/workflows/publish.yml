@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REPOSITORY: ghcr.io/stroeer/distroless-java-grpc
+      REPOSITORY: ghcr.io/stroeer/amazoncorretto-java-grpc
 
     steps:
     - 
