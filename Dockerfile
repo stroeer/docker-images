@@ -1,6 +1,6 @@
 FROM alpine:3.12 as builder
 
-ENV GRPCURL_VERSION="1.7.0"
+ENV GRPCURL_VERSION="1.8.2"
 
 RUN apk add --no-cache curl \
     && mkdir -p /opt \
@@ -9,6 +9,6 @@ RUN apk add --no-cache curl \
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
 # using full sha256 here to make build reproducable
-FROM amazoncorretto:15-alpine
+FROM amazoncorretto:17-alpine
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl 
