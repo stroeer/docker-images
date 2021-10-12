@@ -1,7 +1,7 @@
 Java Base Images
 ================
 
-- using `amazoncoretto:17-alpine`
+- using `eclipse-temurin:17-jdk-alpine`
 - with `grpcurl 1.8.2` preinstalled
 
-ghcr.io/stroeer/amazoncorretto-java-grpc
+ghcr.io/stroeer/temurin-java-grpc
