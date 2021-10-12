@@ -9,6 +9,7 @@ RUN apk add --no-cache curl \
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
 # using full sha256 here to make build reproducable
-FROM amazoncorretto:17-alpine
+#FROM eclipse-temurin:17-jdk-alpine
+FROM eclipse-temurin:17-jdk-alpine@sha256:1153cafb5f012d1ddf61199bc2f74a9b177990c3ccba67ff283ab33751533d33
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl 
