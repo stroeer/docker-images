@@ -2,15 +2,13 @@ name: Publish Docker
 on:
   push:
     branches:
-      - java_11
-      - java_15
       - java_17
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      REPOSITORY: ghcr.io/stroeer/amazoncorretto-java-grpc
+      REPOSITORY: ghcr.io/stroeer/temurin-java-grpc
 
     steps:
     - 
