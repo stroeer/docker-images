@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ custom-fluent-bit ]
+
+# permission can be added at job level or workflow level
+permissions:
+  id-token: write
+  contents: read    # This is required for actions/checkout@v1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: arn:aws:iam::053041861227:role/github-ecr-access-eu-west-1
+          role-session-name: GitHubActions
+          aws-region: eu-west-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Push image to Amazon ECR (eu-west-1)
+        run: |
+          make push
+
+      - name: Logout of Amazon ECR
+        if: always()
+        run: docker logout ${{ steps.login-ecr.outputs.registry }}
