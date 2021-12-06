@@ -23,7 +23,7 @@ tf ::
 build ::
 	docker build \
 		--tag $(ECR_REGISTRY)/$(ECR_REPOSITORY):$(IMAGE_TAG) \
-		--tag $(ECR_REGISTRY)/$(ECR_REPOSITORY):testing-gha .
+		--tag $(ECR_REGISTRY)/$(ECR_REPOSITORY):testing .
 
 ecr_login ::
 	aws  --region $(TF_VAR_region) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT).dkr.ecr.$(TF_VAR_region).amazonaws.com
