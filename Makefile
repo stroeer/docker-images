@@ -12,7 +12,7 @@ build: ## Builds the custom FluentBit image
 	@echo "+ $@"
 	@docker build \
 		--build-arg "UPSTREAM_VERSION=$(UPSTREAM_VERSION)" \
-		--tag $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION) .
+		--tag $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION)-test .
 
 login: ## Login to ECR
 	@echo "+ $@"
@@ -20,7 +20,7 @@ login: ## Login to ECR
 
 push: build login ## Pushes the custom FluentBit image to ECR
 	@echo "+ $@"
-	@docker push --all-tags $(ECR_REGISTRY)/$(SERVICE)
+	@docker push $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION)-test
 
 .PHONY: help
 help: ## Display this help screen
