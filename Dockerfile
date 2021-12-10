@@ -1,4 +1,4 @@
-FROM alpine:3.14 as builder
+FROM alpine:3.15 as builder
 
 ENV GRPCURL_VERSION="1.8.2"
 
