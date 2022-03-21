@@ -1,6 +1,6 @@
 FROM alpine:3.15 as builder
 
-ENV GRPCURL_VERSION="1.8.5"
+ENV GRPCURL_VERSION="1.8.6"
 
 RUN apk add --no-cache curl \
     && mkdir -p /opt \
@@ -9,8 +9,6 @@ RUN apk add --no-cache curl \
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
 # using full sha256 here to make build reproducable
-# eclipse-temurin:17.0.1_12-jdk-alpine 
-# https://hub.docker.com/layers/eclipse-temurin/library/eclipse-temurin/17.0.1_12-jdk-alpine/images/sha256-b30fa3ce4323ce037cb95fd2729dd4662d86f0ee2986452527cc645eaf258a1d?context=explore
-FROM eclipse-temurin:17-jdk-alpine@sha256:b30fa3ce4323ce037cb95fd2729dd4662d86f0ee2986452527cc645eaf258a1d
+FROM eclipse-temurin:17-jre-focal@sha256:96e20be9405634200715c9a5793c3b01d04e61b48f05937e85ca2941d5e9e712
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl 
