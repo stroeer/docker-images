@@ -1,4 +1,4 @@
-ARG UPSTREAM_VERSION=latest
+ARG UPSTREAM_VERSION=2.23.1
 FROM amazon/aws-for-fluent-bit:${UPSTREAM_VERSION}
 
 ADD conf/* /fluent-bit/conf/
