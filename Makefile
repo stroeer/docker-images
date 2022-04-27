@@ -20,7 +20,7 @@ login: ## Login to ECR
 
 push: build login ## Pushes the custom FluentBit image to ECR
 	@echo "+ $@"
-	@docker push --all-tags $(ECR_REGISTRY)/$(SERVICE)
+	@docker push $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION)
 
 .PHONY: help
 help: ## Display this help screen
