@@ -9,6 +9,6 @@ RUN apk add --no-cache curl \
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
 # using full sha256 here to make build reproducable
-FROM eclipse-temurin:17-jre-focal@sha256:96e20be9405634200715c9a5793c3b01d04e61b48f05937e85ca2941d5e9e712
+FROM eclipse-temurin:17-jre@sha256:ff7a89fe868ba504b09f93e3080ad30a75bd3d4e4e7b3e037e91705f8c6994b3
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl 
