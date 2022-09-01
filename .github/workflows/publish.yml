@@ -1,0 +1,39 @@
+name: Publish Docker
+on:
+  push:
+    branches:
+      - java_17
+      - java_18_x86_64
+      - java_18_arm64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY: ghcr.io/stroeer/temurin-java-grpc
+
+    steps:
+    -
+      uses: actions/checkout@master
+
+    -
+      name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]${GITHUB_REF#refs/heads/}"
+      id: extract_branch
+
+    -
+      name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.CR_PAT }}
+
+    -
+      name: docker build
+      run: docker build . --tag "${REPOSITORY}:${{ steps.extract_branch.outputs.branch }}" --tag "${REPOSITORY}:${GITHUB_SHA}"
+
+    -
+      name: docker push
+      run: docker push --all-tags "${REPOSITORY}"
