@@ -5,6 +5,8 @@ on:
       - java_17
       - java_18_x86_64
       - java_18_arm64
+      - java_19_x86_64
+      - java_19_arm64
 
 jobs:
   build:
