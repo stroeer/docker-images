@@ -29,7 +29,7 @@ push: ## Pushes the custom FluentBit image to ECR
 		--build-arg "UPSTREAM_VERSION=$(UPSTREAM_VERSION)" \
 		--platform linux/amd64,linux/arm64 \
 		--push \
-		--tag $(UPSTREAM_VERSION) \
+		--tag $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com/$(SERVICE):$(UPSTREAM_VERSION) \
 		.
 
 .PHONY: help
