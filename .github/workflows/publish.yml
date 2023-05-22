@@ -26,9 +26,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Push image to Amazon ECR (eu-west-1)
-        run: |
-          make push
+      - uses: docker/setup-qemu-action@v2
+
+      - uses: docker/setup-buildx-action@v2
+
+      - name: Push image to Amazon ECR
+        run: make push
 
       - name: Logout of Amazon ECR
         if: always()
