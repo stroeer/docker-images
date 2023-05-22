@@ -6,21 +6,31 @@ ACCOUNT := $(shell aws --output text sts get-caller-identity --query "Account")
 ECR_REGISTRY := "$(or $(ACCOUNT),fake).dkr.ecr.$(REGION).amazonaws.com"
 
 # see https://gallery.ecr.aws/aws-observability/aws-for-fluent-bit
-UPSTREAM_VERSION := 2.25.1
+UPSTREAM_VERSION := 2.31.10
 
+.PHONY: build
 build: ## Builds the custom FluentBit image
 	@echo "+ $@"
-	@docker build \
+	@docker buildx build \
 		--build-arg "UPSTREAM_VERSION=$(UPSTREAM_VERSION)" \
-		--tag $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION) .
+		--platform linux/amd64,linux/arm64 \
+		--tag $(UPSTREAM_VERSION) \
+		.
 
+.PHONY: login
 login: ## Login to ECR
 	@echo "+ $@"
 	@aws  --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com
 
-push: build login ## Pushes the custom FluentBit image to ECR
+.PHONY: push
+push: ## Pushes the custom FluentBit image to ECR
 	@echo "+ $@"
-	@docker push $(ECR_REGISTRY)/$(SERVICE):$(UPSTREAM_VERSION)
+	@docker buildx build \
+		--build-arg "UPSTREAM_VERSION=$(UPSTREAM_VERSION)" \
+		--platform linux/amd64,linux/arm64 \
+		--push \
+		--tag $(UPSTREAM_VERSION) \
+		.
 
 .PHONY: help
 help: ## Display this help screen
