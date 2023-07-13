@@ -6,7 +6,7 @@ ACCOUNT := $(shell aws --output text sts get-caller-identity --query "Account")
 ECR_REGISTRY := "$(or $(ACCOUNT),fake).dkr.ecr.$(REGION).amazonaws.com"
 
 # see https://gallery.ecr.aws/aws-observability/aws-for-fluent-bit
-UPSTREAM_VERSION := 2.31.10
+UPSTREAM_VERSION := 2.31.12
 
 .PHONY: build
 build: ## Builds the custom FluentBit image
