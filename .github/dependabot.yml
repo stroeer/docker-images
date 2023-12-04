@@ -1,0 +1,8 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/java_21"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "stroeer/teams/buzz-end"
