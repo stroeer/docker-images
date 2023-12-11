@@ -1,4 +1,4 @@
-FROM alpine:3.15 as builder
+FROM alpine:3.19 as builder
 
 ARG TARGETARCH
 ENV GRPCURL_VERSION="1.8.7"
