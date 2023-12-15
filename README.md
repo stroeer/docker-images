@@ -11,8 +11,6 @@ This repo contains custom docker images used for buzz Fargate tasks.
 
 ### custom-fluent-bit
 
-**This should be refactored to use a workflow in main like `java_21`!**
-
 * based on [aws-for-fluent-bit](https://gallery.ecr.aws/aws-observability/aws-for-fluent-bit) enhanced
 with parser configuration to process envoy access and application logs.
-* run `make push` in the [custom-fluent-bit](https://github.com/stroeer/docker-images/blob/custom-fluent-bit) branch to push changes our registry
+* changes will be pushed to our *AWS ECR* automatically on merge to main
