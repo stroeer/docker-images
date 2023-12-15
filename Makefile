@@ -23,13 +23,14 @@ login: ## Login to ECR
 	@aws  --region $(REGION) ecr get-login-password | docker login --username AWS --password-stdin $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com
 
 .PHONY: push
-push: ## Pushes the custom FluentBit image to ECR
+push: login ## Pushes the custom FluentBit image to ECR
 	@echo "+ $@"
 	@docker buildx build \
 		--build-arg "UPSTREAM_VERSION=$(UPSTREAM_VERSION)" \
 		--platform linux/amd64,linux/arm64 \
+		--provenance=false \
 		--push \
-		--tag $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com/$(SERVICE):$(UPSTREAM_VERSION) \
+		--tag $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com/$(SERVICE):$(UPSTREAM_VERSION)-config-update \
 		.
 
 .PHONY: help
