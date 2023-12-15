@@ -11,6 +11,7 @@ jobs:
         repo: [ java_21, custom-fluent-bit ]
 
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
     -
@@ -39,6 +40,17 @@ jobs:
       name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
+    - name: configure aws credentials
+      uses: aws-actions/configure-aws-credentials@master
+      with:
+        role-to-assume: arn:aws:iam::053041861227:role/github-ecr-access-eu-west-1
+        role-session-name: GitHubActions
+        aws-region: ${{ env.AWS_REGION }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
@@ -49,4 +61,6 @@ jobs:
         tags: |
           ghcr.io/stroeer/${{ matrix.repo }}:latest
           ghcr.io/stroeer/${{ matrix.repo }}:production
+          $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com/${{ matrix.repo }}:latest
+          $(ACCOUNT).dkr.ecr.$(REGION).amazonaws.com/${{ matrix.repo }}:production
 
