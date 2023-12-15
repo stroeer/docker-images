@@ -8,7 +8,7 @@ jobs:
   build:
     strategy:
       matrix:
-        repo: [ java_21, custom-fluentbit ]
+        repo: [ java_21, custom-fluent-bit ]
 
     runs-on: ubuntu-latest
 
