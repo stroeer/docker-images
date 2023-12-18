@@ -100,6 +100,6 @@ jobs:
         push: true
         provenance: false
         tags: |
-          053041861227.dkr.ecr.eu-west-1.amazonaws.com/${{ matrix.repo }}:2.32.0
+          053041861227.dkr.ecr.eu-west-1.amazonaws.com/${{ matrix.repo }}:2.32.0-latest
           053041861227.dkr.ecr.eu-west-1.amazonaws.com/${{ matrix.repo }}:production
 
