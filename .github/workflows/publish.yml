@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   github:
@@ -26,6 +29,7 @@ jobs:
     -
       name: Login to GitHub Container Registry
       uses: docker/login-action@v1
+      if: ${{ github.event_name != 'pull_request' }}
       with:
         registry: ghcr.io
         username: ${{ github.repository_owner }}
@@ -45,7 +49,7 @@ jobs:
       with:
         context: ${{ matrix.repo }}
         platforms: linux/amd64,linux/arm64
-        push: true
+        push: ${{ github.event_name != 'pull_request' }}
         provenance: false
         tags: |
           ghcr.io/stroeer/${{ matrix.repo }}:latest
@@ -83,6 +87,7 @@ jobs:
 
     - name: configure aws credentials
       uses: aws-actions/configure-aws-credentials@master
+      if: ${{ github.event_name != 'pull_request' }}
       with:
         role-to-assume: arn:aws:iam::053041861227:role/github-ecr-access-eu-west-1
         role-session-name: GitHubActions
@@ -91,13 +96,14 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
+      if: ${{ github.event_name != 'pull_request' }}
 
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
         context: ${{ matrix.repo }}
         platforms: linux/amd64,linux/arm64
-        push: true
+        push: ${{ github.event_name != 'pull_request' }}
         provenance: false
         tags: |
           053041861227.dkr.ecr.eu-west-1.amazonaws.com/${{ matrix.repo }}:2.32.0-latest
