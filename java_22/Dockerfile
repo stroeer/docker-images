@@ -14,6 +14,6 @@ RUN set -eux; \
 
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
-FROM eclipse-temurin:21-jre-alpine@sha256:6f78a61a2aa1e6907dda2da3eb791d44ef3d18e36aee1d1bdaa3543bd44cff4b
+FROM eclipse-temurin:22-jre-alpine@sha256:cff33794a241b7381015bcb2fd3c21de05bb573754b1a95165d476edb148cb00
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl

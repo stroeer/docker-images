@@ -11,7 +11,7 @@ jobs:
   github:
     strategy:
       matrix:
-        repo: [ java_21 ]
+        repo: [ java_21, java_22 ]
 
     runs-on: ubuntu-latest
     continue-on-error: true
