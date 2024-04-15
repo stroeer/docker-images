@@ -1,4 +1,5 @@
 FROM alpine:3.15 as builder
+LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
 ENV GRPCURL_VERSION="1.9.1"
