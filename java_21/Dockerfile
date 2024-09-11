@@ -1,4 +1,4 @@
-FROM alpine:3.15 as builder
+FROM alpine:3.20 as builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
@@ -15,6 +15,6 @@ RUN set -eux; \
 
 RUN tar xvf /opt/grpcurl.tar.gz -C /opt
 
-FROM eclipse-temurin:21-jre-alpine@sha256:6f78a61a2aa1e6907dda2da3eb791d44ef3d18e36aee1d1bdaa3543bd44cff4b
+FROM eclipse-temurin:21-jre-alpine@sha256:8cc1202a100e72f6e91bf05ab274b373a5def789ab6d9e3e293a61236662ac27
 
 COPY --from=builder /opt/grpcurl /usr/bin/grpcurl
