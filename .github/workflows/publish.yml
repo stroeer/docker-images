@@ -52,4 +52,4 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           provenance: false
           tags: |
-            ghcr.io/stroeer/docker-images:${{ matrix.repo }}-latest
+            ghcr.io/stroeer/${{ matrix.repo }}:latest
