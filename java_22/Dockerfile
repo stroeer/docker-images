@@ -1,8 +1,8 @@
-FROM alpine:3.20 as builder
+FROM alpine:3.21 as builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
-ENV GRPCURL_VERSION="1.9.1"
+ENV GRPCURL_VERSION="1.9.3"
 
 RUN set -eux; \
     apk add --no-cache curl; \
