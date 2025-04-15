@@ -20,7 +20,3 @@ RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components
 FROM eclipse-temurin:22-jre-alpine@sha256:d8ac5f15b7dc0a91bdfb89422f900383469e5de12dcce3949f145d713f455b34
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
-
-
-
-
