@@ -12,3 +12,15 @@ updates:
       interval: "weekly"
     reviewers:
       - "stroeer/teams/buzz-end"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
