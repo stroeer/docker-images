@@ -1,4 +1,4 @@
-FROM alpine:3.21 AS builder
+FROM alpine:3.22 AS builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
@@ -17,6 +17,6 @@ RUN set -eux; \
 RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components=1
 
 # see https://hub.docker.com/_/eclipse-temurin/tags?name=21-jre-alpine
-FROM eclipse-temurin:21-jre-alpine@sha256:4e9ab608d97796571b1d5bbcd1c9f430a89a5f03fe5aa6c093888ceb6756c502
+FROM eclipse-temurin:21-jre-alpine@sha256:4ca7eff3ab0ef9b41f5fefa35efaeda9ed8d26e161e1192473b24b3a6c348aef
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
