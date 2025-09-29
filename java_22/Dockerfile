@@ -17,6 +17,6 @@ RUN set -eux; \
 RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components=1
 
 # see https://hub.docker.com/_/eclipse-temurin/tags?name=22-jre-alpine
-FROM eclipse-temurin:22-jre-alpine@sha256:d8ac5f15b7dc0a91bdfb89422f900383469e5de12dcce3949f145d713f455b34
+FROM eclipse-temurin:25-jre-alpine@sha256:0be0f9b8c4c9c55bd97194ed84f0751f639f5712d9e99a45a0d65bf49f57bd08
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
