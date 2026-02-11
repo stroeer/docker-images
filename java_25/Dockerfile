@@ -24,8 +24,8 @@ RUN set -eux; \
 RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components=1
 RUN chmod +x /opt/grpc_health_probe
 
-# see https://hub.docker.com/_/eclipse-temurin/tags?name=25-jre-alpine
-FROM eclipse-temurin:25-jre-alpine@sha256:0be0f9b8c4c9c55bd97194ed84f0751f639f5712d9e99a45a0d65bf49f57bd08
+# see https://hub.docker.com/_/eclipse-temurin/tags?name=25.0.2_10-jre-alpine
+FROM eclipse-temurin:25.0.2_10-jre-alpine@sha256:f10d6259d0798c1e12179b6bf3b63cea0d6843f7b09c9f9c9c422c50e44379ec
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
