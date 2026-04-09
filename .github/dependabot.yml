@@ -1,14 +1,50 @@
 version: 2
 updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 8
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    reviewers:
+      - "stroeer/teams/buzz-end"
   - package-ecosystem: "docker"
     directory: "/java_21"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 8
+    groups:
+      docker:
+        patterns:
+          - "*"
     reviewers:
       - "stroeer/teams/buzz-end"
   - package-ecosystem: "docker"
     directory: "/java_22"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 8
+    groups:
+      docker:
+        patterns:
+          - "*"
+    reviewers:
+      - "stroeer/teams/buzz-end"
+  - package-ecosystem: "docker"
+    directory: "/java_25"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 8
+    groups:
+      docker:
+        patterns:
+          - "*"
     reviewers:
       - "stroeer/teams/buzz-end"
