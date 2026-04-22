@@ -1,0 +1,75 @@
+# this is the envoy's sparse config, everything is loaded from the xDS server
+# https://www.envoyproxy.io/docs/envoy/latest/configuration/overview/examples#dynamic
+
+node:
+  id: $NODE_ID
+  cluster: $NODE_ID
+
+# Component log levels — tune or remove once health check issue is resolved.
+# Equivalent CLI flag: --component-log-level health_checker:debug,upstream:debug,connection:debug,tls:debug
+# Cannot be set in bootstrap YAML; must be passed to the Envoy binary as a CLI argument.
+# For ECS, add to the container command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--component-log-level", "health_checker:debug,upstream:debug"]
+
+application_log_config:
+  log_format:
+    json_format:
+      timestamp: "%Y-%m-%dT%T.%F"
+      threadId: "%t"
+      level:     "%l"
+      message: "%j"
+
+admin:
+  address:
+    socket_address: { address: 0.0.0.0, port_value: 9901 }
+
+dynamic_resources:
+  # Aggregated Discovery Service — one gRPC stream for LDS, CDS, RDS, SDS.
+  # initial_metadata here applies to all discovery types automatically.
+  ads_config:
+      api_type: GRPC
+      grpc_services:
+        - envoy_grpc:
+            cluster_name: xds_cluster
+          initial_metadata:
+            - key: "authorization"
+              value: "Bearer ${CONTROL_PLANE_TOKEN}"
+  lds_config:
+    ads: {}
+  cds_config:
+    ads: {}
+
+static_resources:
+  clusters:
+    - name: xds_cluster
+      connect_timeout: 5s
+      type: STRICT_DNS
+      lb_policy: ROUND_ROBIN
+      typed_extension_protocol_options:
+        envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+          "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+          explicit_http_config:
+            http2_protocol_options:
+              connection_keepalive:
+                interval: 25s
+                timeout: 2s
+      upstream_connection_options:
+        tcp_keepalive: { }
+      load_assignment:
+        cluster_name: xds_cluster
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address: { address: $CONTROL_PLANE_HOST, port_value: $CONTROL_PLANE_PORT }
+      transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+          sni: $CONTROL_PLANE_HOST
+          common_tls_context:
+            validation_context:
+              trusted_ca: { filename: /etc/ssl/certs/ca.pem }
+              match_typed_subject_alt_names:
+                - san_type: DNS
+                  matcher:
+                    exact: $CONTROL_PLANE_HOST

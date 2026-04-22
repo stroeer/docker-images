@@ -3,15 +3,12 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   github:
     strategy:
       matrix:
-        repo: [ java_21 ]
+        repo: [ java_25, envoy ]
 
     runs-on: ubuntu-latest
     continue-on-error: true
@@ -26,11 +23,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@61b9e3751b92087fd0b06925ba6dd6314e06f089 # master
 
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]${GITHUB_REF#refs/heads/}"
-        id: extract_branch
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
         if: ${{ github.event_name != 'pull_request' }}
@@ -41,6 +33,7 @@ jobs:
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4.0.0
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # 4.0.0
 
