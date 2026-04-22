@@ -7,8 +7,9 @@ RUN \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+COPY ca.pem /etc/ssl/certs/ca.pem
 COPY envoy.template.yaml /etc/envoy/envoy.template.yaml
-RUN chmod go+r /etc/envoy/envoy.template.yaml \
+RUN chmod go+r /etc/envoy/envoy.template.yaml /etc/ssl/certs/ca.pem \
     && chmod go+w /etc/envoy/ \
     && rm /etc/envoy/envoy.yaml
 COPY custom-entrypoint.sh /custom-entrypoint.sh
