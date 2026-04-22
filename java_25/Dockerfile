@@ -25,7 +25,7 @@ RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components
 RUN chmod +x /opt/grpc_health_probe
 
 # see https://hub.docker.com/_/eclipse-temurin/tags?name=25.0.2_10-jre-alpine
-FROM eclipse-temurin:25.0.2_10-jre-alpine@sha256:f10d6259d0798c1e12179b6bf3b63cea0d6843f7b09c9f9c9c422c50e44379ec
+FROM eclipse-temurin:25.0.2_10-jre-alpine@sha256:5fcc27581b238efbfda93da3a103f59e0b5691fe522a7ac03fe8057b0819c888
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
