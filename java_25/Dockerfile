@@ -1,4 +1,4 @@
-FROM alpine:3.22 AS builder
+FROM alpine:3.23.4 AS builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
@@ -25,7 +25,7 @@ RUN mkdir -p /opt/buf && tar -xzf /opt/buf.tar.gz -C /opt/buf --strip-components
 RUN chmod +x /opt/grpc_health_probe
 
 # see https://hub.docker.com/_/eclipse-temurin/tags?name=25.0.2_10-jre-alpine
-FROM eclipse-temurin:25.0.2_10-jre-alpine@sha256:5fcc27581b238efbfda93da3a103f59e0b5691fe522a7ac03fe8057b0819c888
+FROM eclipse-temurin:26.0.1_8-jre-alpine@sha256:bae1c79cfc2787461c7d1ead6f41b67e3d75cc4b372dfe45b57432f9460d8ff3
 
 COPY --from=builder /opt/buf/bin/buf /usr/bin/buf
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
