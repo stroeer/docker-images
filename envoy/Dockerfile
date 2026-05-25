@@ -1,5 +1,5 @@
 # https://hub.docker.com/layers/envoyproxy/envoy/v1.37.2/images/sha256-8e86fb9dd0f429e83895e63cf77986aa739ead10d6d698639bce852101b98d57
-FROM envoyproxy/envoy:v1.37.2@sha256:c5e8a68e52f4d4697a9adb280dbe415d77fedf1257e183dcb86205bd438f18bd
+FROM envoyproxy/envoy:v1.38.0@sha256:8146b97ee61a42cd216514709e4e3198af75f014974e3d9f310aef9c901fcbdf
 
 RUN \
   apt-get update \
