@@ -1,9 +1,10 @@
-# https://hub.docker.com/layers/envoyproxy/envoy/v1.37.2/images/sha256-8e86fb9dd0f429e83895e63cf77986aa739ead10d6d698639bce852101b98d57
-FROM envoyproxy/envoy:v1.37.2@sha256:c5e8a68e52f4d4697a9adb280dbe415d77fedf1257e183dcb86205bd438f18bd
+# https://hub.docker.com/layers/envoyproxy/envoy/v1.38.3/images/sha256-5f3e2f88bbeabefcdbc871f976529334aba158a3ffb17be021904f9d4c81f1c8
+FROM envoyproxy/envoy:v1.38.3@sha256:5f7c43e1147412fdb3af578c651c67478a3df818eae89d2261e707e06c209cdb
 
+# version pin required by security scanner, see https://ubuntu.pkgs.org/22.04/ubuntu-main-amd64/ for updates if needed
 RUN \
   apt-get update \
-  && apt-get -y install gettext-base \
+  && apt-get -y install --no-install-recommends gettext-base=0.21-4ubuntu4 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
