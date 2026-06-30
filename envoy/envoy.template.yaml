@@ -34,6 +34,8 @@ dynamic_resources:
           initial_metadata:
             - key: "authorization"
               value: "Bearer ${CONTROL_PLANE_TOKEN}"
+            - key: "user-agent"
+              value: "$NODE_ID-envoy"
   lds_config:
     ads: {}
   cds_config:
