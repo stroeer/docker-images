@@ -4,6 +4,7 @@
 node:
   id: $NODE_ID
   cluster: $NODE_ID
+  user_agent_name: $NODE_ID-envoy
 
 # Component log levels — tune or remove once health check issue is resolved.
 # Equivalent CLI flag: --component-log-level health_checker:debug,upstream:debug,connection:debug,tls:debug
