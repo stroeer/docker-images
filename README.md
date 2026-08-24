@@ -6,6 +6,6 @@ This repo contains custom docker images used for buzz Fargate tasks.
 
 ### java_25
 
-* based on [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin) with [buf curl](https://github.com/bufbuild/buf) for container health checks.
-* changes will be pushed to our registry 
-* [java 25](https://github.com/stroeer/docker-images/pkgs/container/java_25) automatically on merge to main  
+* based on [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin) with [grpc-health-probe](https://github.com/grpc-ecosystem/grpc-health-probe) for container health checks.
+* changes will be pushed to our registry
+* [java 25](https://github.com/stroeer/docker-images/pkgs/container/java_25) automatically on merge to main
