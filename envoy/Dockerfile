@@ -1,5 +1,5 @@
 # https://hub.docker.com/layers/envoyproxy/envoy/v1.38.3/images/sha256-5f3e2f88bbeabefcdbc871f976529334aba158a3ffb17be021904f9d4c81f1c8
-FROM envoyproxy/envoy:v1.38.3@sha256:5f7c43e1147412fdb3af578c651c67478a3df818eae89d2261e707e06c209cdb
+FROM envoyproxy/envoy:v1.39.1@sha256:57e14a549d7bd43c8d3f6d03e8cfa653e037d4b38e133acd9b54f38c524401b4
 
 # version pin required by security scanner, see https://ubuntu.pkgs.org/22.04/ubuntu-main-amd64/ for updates if needed
 RUN \
