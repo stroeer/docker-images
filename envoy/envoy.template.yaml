@@ -23,6 +23,14 @@ admin:
   address:
     socket_address: { address: 0.0.0.0, port_value: 9901 }
 
+overload_manager:
+  resource_monitors:
+    - name: envoy.resource_monitors.global_downstream_max_connections
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.resource_monitors.downstream_connections.v3.DownstreamConnectionsConfig
+        # ~half of Fargate's default nofile (65535); each proxied downstream conn can pin an upstream fd
+        max_active_downstream_connections: 30000
+
 dynamic_resources:
   # Aggregated Discovery Service — one gRPC stream for LDS, CDS, RDS, SDS.
   # initial_metadata here applies to all discovery types automatically.
