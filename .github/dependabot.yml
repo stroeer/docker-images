@@ -1,38 +1,30 @@
+# Dependabot rules for repos with GitHub topic "buzz"; entries for ecosystems a repo does not use are left out.
+# Version updates: monthly, all updates (incl. majors) in one PR per ecosystem.
+# Security updates: immediately, one PR per ecosystem across all directories.
 version: 2
 updates:
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directories: ["/", "/.github/actions/*"]
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     cooldown:
       default-days: 8
     groups:
+      github-actions-security:
+        applies-to: security-updates
+        patterns: ["*"]
       github-actions:
-        patterns:
-          - "*"
-    reviewers:
-      - "stroeer/teams/buzz-end"
+        patterns: ["*"]
+
   - package-ecosystem: "docker"
-    directory: "/envoy"
+    directories: ["**/*"]
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     cooldown:
       default-days: 8
     groups:
+      docker-security:
+        applies-to: security-updates
+        patterns: ["*"]
       docker:
-        patterns:
-          - "*"
-    reviewers:
-      - "stroeer/teams/buzz-end"
-  - package-ecosystem: "docker"
-    directory: "/java_25"
-    schedule:
-      interval: "weekly"
-    cooldown:
-      default-days: 8
-    groups:
-      docker:
-        patterns:
-          - "*"
-    reviewers:
-      - "stroeer/teams/buzz-end"
+        patterns: ["*"]
