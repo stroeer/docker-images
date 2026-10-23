@@ -19,6 +19,6 @@ RUN set -eux; \
 RUN chmod +x /opt/grpc_health_probe
 
 # see https://hub.docker.com/_/eclipse-temurin/tags?name=25.0.4_7-jre-alpine
-FROM eclipse-temurin:25.0.4_7-jre-alpin@sha256:3137541deb3cac6626b5d9a4a2187bc0d6a34312f858bd2c67dd01e732e6b682
+FROM eclipse-temurin:25.0.4_7-jre-alpine@sha256:3137541deb3cac6626b5d9a4a2187bc0d6a34312f858bd2c67dd01e732e6b682
 
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
