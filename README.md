@@ -2,6 +2,25 @@
 
 This repo contains custom docker images used for buzz Fargate tasks.
 
+## Tagging
+
+Images are automatically tagged with an inferred version from the last `FROM` line in a Dockerfile, see
+[publish.yml](./.github/workflows/publish.yml). When adding a new Dockerfile, ensure that it works with the step that
+does the extraction ("Determine upstream version").
+
+The following tags are created:
+
+```text
+$version-$short_sha (immutable)
+$version (mutable)
+latest (mutable)
+
+# e.g.
+1.40.1-23c7662
+1.40.1
+latest
+```
+
 ## Images
 
 ### java_25
