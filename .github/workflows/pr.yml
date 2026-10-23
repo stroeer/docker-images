@@ -1,0 +1,31 @@
+name: Check Docker
+on:
+  pull_request:
+
+jobs:
+  upstream-version:
+    strategy:
+      matrix:
+        repo: [ java_25, envoy ]
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Determine upstream version
+        # This will fail if no version can be extracted
+        id: upstream
+        uses: ./.github/actions/upstream-version
+        with:
+          context: ${{ matrix.repo }}
+
+      - name: Show upstream version
+        env:
+          VERSION: ${{ steps.upstream.outputs.version }}
+        run: |
+          echo "${{ matrix.repo }}: $VERSION" >> "$GITHUB_STEP_SUMMARY"

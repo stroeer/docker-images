@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@61b9e3751b92087fd0b06925ba6dd6314e06f089 # master
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
@@ -38,42 +38,10 @@ jobs:
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # 4.4.1
 
       - name: Determine upstream version
-        # This step determines the version of the base image being built from the FROM tag in the Dockerfile so it can
-        # be used as a tag later. It does that by continuously applying "cut" to remove parts of the last FROM string.
         id: upstream
-        working-directory: ${{ matrix.repo }}
-        run: |
-          # Takes the last FROM line, which is the stage that ends up in the published image.
-          #   Output: FROM envoyproxy/envoy:v1.40.1@sha256:713b...
-          from_line=$(grep '^FROM' Dockerfile | tail -n 1)
-
-          # Removes the "FROM " keyword.
-          #   Input:  FROM envoyproxy/envoy:v1.40.1@sha256:713b...
-          #   Output: envoyproxy/envoy:v1.40.1@sha256:713b...
-          image=$(echo "$from_line" | cut -d' ' -f2)
-
-          # Removes the digest, which is everything from the "@" onwards.
-          #   Input:  envoyproxy/envoy:v1.40.1@sha256:713b...
-          #   Output: envoyproxy/envoy:v1.40.1
-          image_without_digest=$(echo "$image" | cut -d@ -f1)
-
-          # Fails if the image has no tag, because there is no version to extract then. This is for image
-          # addition/changes to ensure we don't publish broken tags.
-          #   Input:  envoyproxy/envoy:v1.40.1
-          if [[ "$image_without_digest" != *:* ]]; then
-            echo "::error file=${{ matrix.repo }}/Dockerfile::The last FROM image has no tag: $image_without_digest"
-            exit 1
-          fi
-
-          # Removes the image name, which is everything up to and including the ":".
-          #   Input:  envoyproxy/envoy:v1.40.1
-          #   Output: v1.40.1
-          tag=$(echo "$image_without_digest" | cut -d: -f2)
-
-          # Removes a leading "v", if there is one.
-          #   Input:  v1.40.1
-          #   Output: 1.40.1
-          echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
+        uses: ./.github/actions/upstream-version
+        with:
+          context: ${{ matrix.repo }}
 
       - name: Docker metadata
         id: meta

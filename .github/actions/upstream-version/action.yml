@@ -1,0 +1,56 @@
+name: Determine upstream version
+description: >
+  Determines the version of the base image from the tag of the last FROM line in a Dockerfile, so it can be used as
+  an image tag. It does that by continuously applying "cut" to remove parts of the last FROM string. Fails if that
+  FROM line has no tag.
+
+inputs:
+  context:
+    description: Directory that contains the Dockerfile.
+    required: true
+
+outputs:
+  version:
+    description: The base image tag without a leading "v", e.g. "1.40.1".
+    value: ${{ steps.upstream.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - id: upstream
+      shell: bash
+      working-directory: ${{ inputs.context }}
+      env:
+        CONTEXT: ${{ inputs.context }}
+      run: |
+        # Takes the last FROM line, which is the stage that ends up in the published image.
+        #   Output: FROM envoyproxy/envoy:v1.40.1@sha256:713b...
+        from_line=$(grep '^FROM' Dockerfile | tail -n 1)
+
+        # Removes the "FROM " keyword.
+        #   Input:  FROM envoyproxy/envoy:v1.40.1@sha256:713b...
+        #   Output: envoyproxy/envoy:v1.40.1@sha256:713b...
+        image=$(echo "$from_line" | cut -d' ' -f2)
+
+        # Removes the digest, which is everything from the "@" onwards.
+        #   Input:  envoyproxy/envoy:v1.40.1@sha256:713b...
+        #   Output: envoyproxy/envoy:v1.40.1
+        image_without_digest=$(echo "$image" | cut -d@ -f1)
+
+        # Fails if the image has no tag, because there is no version to extract then. This is for image
+        # addition/changes to ensure we don't publish broken tags.
+        #   Input:  envoyproxy/envoy:v1.40.1
+        if [[ "$image_without_digest" != *:* ]]; then
+          echo "::error file=$CONTEXT/Dockerfile::The last FROM image has no tag: $image_without_digest"
+          exit 1
+        fi
+
+        # Removes the image name, which is everything up to and including the ":".
+        #   Input:  envoyproxy/envoy:v1.40.1
+        #   Output: v1.40.1
+        tag=$(echo "$image_without_digest" | cut -d: -f2)
+
+        # Removes a leading "v", if there is one.
+        #   Input:  v1.40.1
+        #   Output: 1.40.1
+        echo "version=${tag#v}" >> "$GITHUB_OUTPUT"
