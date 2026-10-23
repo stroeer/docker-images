@@ -1,4 +1,4 @@
-# https://hub.docker.com/layers/envoyproxy/envoy/v1.40.1/images/sha256-7b088327f38b3d5d2dac1855b2722ab398dbfe32d38929b4a9599d740d746d8b?tab=layers
+# https://hub.docker.com/r/envoyproxy/envoy/tags
 FROM envoyproxy/envoy:v1.40.1@sha256:713bb146f1a7c97ebc70e13d259f77ff36f2c5d00f3145677816af5af9bd1530
 
 # version pin required by security scanner, see https://ubuntu.pkgs.org/22.04/ubuntu-main-amd64/ for updates if needed
