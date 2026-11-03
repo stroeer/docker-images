@@ -2,7 +2,7 @@ FROM alpine:3.24 AS builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
-ENV GRPC_HEALTH_PROBE_VERSION="0.4.56"
+ENV GRPC_HEALTH_PROBE_VERSION="0.4.61"
 
 RUN set -eux; \
     mkdir -p /opt; \
@@ -19,9 +19,6 @@ RUN set -eux; \
 RUN chmod +x /opt/grpc_health_probe
 
 # see https://hub.docker.com/_/eclipse-temurin/tags
-FROM eclipse-temurin:25.0.4_7-jre-alpine@sha256:3137541deb3cac6626b5d9a4a2187bc0d6a34312f858bd2c67dd01e732e6b682
+FROM eclipse-temurin:25.0.5_8-jre-alpine@sha256:56f273059de6b13a6b49fe0ded691ed2d0399bbee76156a8f2d385f7524a3d43
 
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
-
-# brotli-libs < 1.2.1-r0 is vulnerable (CVE-2026-111497); drop once the base image ships the fix
-RUN apk add --no-cache --upgrade "brotli-libs>=1.2.1-r0"
