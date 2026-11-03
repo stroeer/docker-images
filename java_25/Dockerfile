@@ -2,7 +2,7 @@ FROM alpine:3.24 AS builder
 LABEL org.opencontainers.image.source="https://github.com/stroeer/docker-images"
 
 ARG TARGETARCH
-ENV GRPC_HEALTH_PROBE_VERSION="0.4.56"
+ENV GRPC_HEALTH_PROBE_VERSION="0.4.61"
 
 RUN set -eux; \
     mkdir -p /opt; \
