@@ -18,7 +18,15 @@ RUN set -eux; \
 
 RUN chmod +x /opt/grpc_health_probe
 
-# see https://hub.docker.com/_/eclipse-temurin/tags
-FROM eclipse-temurin:25.0.5_8-jre-alpine@sha256:56f273059de6b13a6b49fe0ded691ed2d0399bbee76156a8f2d385f7524a3d43
+# wiz-ti:mitigation CVE-2026-114938 until eclipse-temurin ships openjdk >= 25.0.6
+# Temurin 25.0.5_8 is the newest published tag and still vulnerable; Alpine's openjdk25 25.0.5.1_p2-r0 carries the fix.
+FROM alpine:3.24
+
+RUN apk add --no-cache 'openjdk25-jre-headless>=25.0.5.1_p2-r0' \
+    && mkdir -p /opt/java \
+    && ln -s /usr/lib/jvm/java-25-openjdk /opt/java/openjdk
+
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH="/opt/java/openjdk/bin:${PATH}"
 
 COPY --from=builder /opt/grpc_health_probe /usr/bin/grpc_health_probe
